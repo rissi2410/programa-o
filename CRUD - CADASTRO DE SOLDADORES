@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 10
+
+struct Soldador {
+    char nome[30];
+    char sinete[3];          // 2 caracteres + '\0'
+    char qualificacao[30];
+    char validade[11];       // dd/mm/aaaa + '\0'
+};
+
+struct Soldador soldadores[MAX];
+int quantidadedesoldadores = 0;
+
+void cadastrarSoldador() {
+    if (quantidadedesoldadores >= MAX) {
+        printf("Limite de %d soldadores atingido.\n", MAX);
+        return;
+    }
+
+    printf("\n--- CADASTRO DE SOLDADOR ---\n");
+
+    printf("Nome: ");
+    scanf(" %29[^\n]", soldadores[quantidadedesoldadores].nome);
+
+    printf("Sinete: ");
+    scanf(" %2s", soldadores[quantidadedesoldadores].sinete);
+
+    printf("Qualificacao: ");
+    scanf(" %29[^\n]", soldadores[quantidadedesoldadores].qualificacao);
+
+    printf("Validade (dd/mm/aaaa): ");
+    scanf(" %10s", soldadores[quantidadedesoldadores].validade);
+
+    quantidadedesoldadores++;
+    printf("Soldador cadastrado com sucesso.\n");
+}
+
+void listarSoldadores() {
+    printf("\n--- SOLDADORES CADASTRADOS ---\n");
+
+    if (quantidadedesoldadores == 0) {
+        printf("Nenhum soldador cadastrado.\n");
+        return;
+    }
+
+    for (int i = 0; i < quantidadedesoldadores; i++) {
+        printf("Nome: %s | Sinete: %s | Qualificacao: %s | Validade: %s\n",
+               soldadores[i].nome,
+               soldadores[i].sinete,
+               soldadores[i].qualificacao,
+               soldadores[i].validade);
+    }
+}
+
+int main() {
+    int op;
+
+    do {
+        printf("\n----------- MENU PRINCIPAL -----------\n");
+        printf("1. Cadastrar Soldador\n");
+        printf("2. Listar Soldadores\n");
+        printf("0. Sair\n");
+        printf("--------------------------------------\n");
+        printf("Opcao: ");
+        scanf("%d", &op);
+        while(getchar() != '\n'); // Limpa o buffer do teclado
+
+        switch (op) {
+            case 1: cadastrarSoldador(); break;
+            case 2: listarSoldadores(); break;
+            case 0: printf("\nEncerrando sistema...\n"); break;
+            default: printf("\nOpcao invalida! Tente novamente.\n");
+        }
+
+    } while (op != 0);
+
+    printf("\nObrigado por utilizar o sistema!\n");
+    return 0;
+}
+
+
+
