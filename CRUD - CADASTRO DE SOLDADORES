@@ -46,12 +46,81 @@ void listarSoldadores() {
     }
 
     for (int i = 0; i < quantidadedesoldadores; i++) {
-        printf("Nome: %s | Sinete: %s | Qualificacao: %s | Validade: %s\n",
+        printf("Número: %d | Nome: %s | Sinete: %s | Qualificacao: %s | Validade: %s\n",
+               i + 1,
                soldadores[i].nome,
                soldadores[i].sinete,
                soldadores[i].qualificacao,
                soldadores[i].validade);
     }
+}
+
+void editarSoldador() {
+    int index;
+
+    printf("\n--- EDITAR SOLDADOR ---\n");
+    listarSoldadores();
+
+    if (quantidadedesoldadores == 0) {
+        return;
+    }
+
+    printf("Escolha o número do soldador para editar: ");
+    scanf("%d", &index);
+    while(getchar() != '\n'); // Limpa o buffer
+
+    if (index < 1 || index > quantidadedesoldadores) {
+        printf("Índice inválido.\n");
+        return;
+    }
+
+    // Ajusta para índice 0
+    index--;
+
+    printf("Novo Nome: ");
+    scanf(" %29[^\n]", soldadores[index].nome);
+
+    printf("Novo Sinete: ");
+    scanf(" %2s", soldadores[index].sinete);
+
+    printf("Nova Qualificação: ");
+    scanf(" %29[^\n]", soldadores[index].qualificacao);
+
+    printf("Nova Validade (dd/mm/aaaa): ");
+    scanf(" %10s", soldadores[index].validade);
+
+    printf("Soldador editado com sucesso.\n");
+}
+
+void excluirSoldador() {
+    int index;
+
+    printf("\n--- EXCLUIR SOLDADOR ---\n");
+    listarSoldadores();
+
+    if (quantidadedesoldadores == 0) {
+        return;
+    }
+
+    printf("Escolha o número do soldador para excluir: ");
+    scanf("%d", &index);
+    while(getchar() != '\n'); // Limpa o buffer
+
+    if (index < 1 || index > quantidadedesoldadores) {
+        printf("Índice inválido.\n");
+        return;
+    }
+
+    // Ajusta para índice 0
+    index--;
+
+    // Remover o soldador (shift para a esquerda)
+    for (int i = index; i < quantidadedesoldadores - 1; i++) {
+        soldadores[i] = soldadores[i + 1];
+    }
+
+    quantidadedesoldadores--;
+    printf("Soldador excluído com sucesso.\n");
 }
 
 int main() {
@@ -72,6 +141,8 @@ int main() {
         switch (op) {
             case 1: cadastrarSoldador(); break;
             case 2: listarSoldadores(); break;
+            case 3: editarSoldador(); break;
+            case 4: excluirSoldador(); break;
             case 0: printf("\nEncerrando sistema...\n"); break;
             default: printf("\nOpcao invalida! Tente novamente.\n");
         }
@@ -81,10 +152,3 @@ int main() {
     printf("\nObrigado por utilizar o sistema!\n");
     return 0;
 }
-
-
-
-
-
-
-
